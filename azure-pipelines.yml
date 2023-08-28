@@ -8,7 +8,7 @@ pool:
 
 steps:
 - powershell: |
-    Install-Module Microsoft.Graph -Scope CurrentUser
+    Install-Module Microsoft.Graph -Scope CurrentUser -Force
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'PoC-Deploy-Azure-Policy'
