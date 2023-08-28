@@ -7,6 +7,8 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- powershell: |
+    Install-Module Microsoft.Graph -Scope CurrentUser
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'PoC-Deploy-Azure-Policy'
