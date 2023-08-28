@@ -7,10 +7,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'PoC-Deploy-Azure-Policy'
+    scriptType: 'pscore'
+    scriptLocation: 'scriptPath'
+    scriptPath: 'Deploy-Policies.ps1'
+    arguments: '-Prefix "ZT" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1"'
