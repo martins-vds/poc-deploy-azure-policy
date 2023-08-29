@@ -4,7 +4,8 @@
 # https://aka.ms/yaml
 
 pool:
-  name: Default
+  # name: Default
+  vmImage: windows-latest
 
 trigger: none
 
