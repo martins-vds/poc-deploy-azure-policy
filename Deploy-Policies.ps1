@@ -142,7 +142,7 @@ try{Disconnect-MgGraph -ErrorAction SilentlyContinue}catch{}
 $SecureClientSecret = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
 $ClientSecretCredential = New-Object System.Management.Automation.PSCredential ($ClientId, $SecureClientSecret)
 
-Connect-MgGraph -ClientSecretCredential $ClientSecretCredential -TenantId $TenantId -Scopes "Application.Read.All","Group.ReadWrite.All","Policy.Read.All","Policy.ReadWrite.ConditionalAccess" -ErrorAction Stop
+Connect-MgGraph -ClientSecretCredential $ClientSecretCredential -TenantId $TenantId -ErrorAction Stop
 #endregion
 
 #region parameters
