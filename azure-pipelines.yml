@@ -4,17 +4,9 @@
 # https://aka.ms/yaml
 
 pool:
-  vmImage: windows-latest
+  name: Default
 
 steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
-      Install-Module Microsoft.Graph -Force -Scope CurrentUser
-    showWarnings: true
-    pwsh: true
 - task: AzurePowerShell@5
   inputs:
     azureSubscription: 'PoC-Deploy-Azure-Policy'
