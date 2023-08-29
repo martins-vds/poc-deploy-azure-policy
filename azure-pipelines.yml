@@ -4,13 +4,14 @@
 # https://aka.ms/yaml
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'PoC-Deploy-Azure-Policy'
+    ScriptType: 'FilePath'
+    ScriptPath: 'Deploy-Policies.ps1'
+    ScriptArguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1"'
+    azurePowerShellVersion: 'LatestVersion'
+    pwsh: true
