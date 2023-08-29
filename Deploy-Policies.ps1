@@ -120,13 +120,14 @@ Import-Module -Name Microsoft.Graph.Authentication
 Import-Module -Name Microsoft.Graph.Groups
 Import-Module -Name Microsoft.Graph.Identity.SignIns
 
-if($Endpoint -eq "Beta"){
-    Select-MgProfile -Name "beta"
-}elseif($Endpoint -eq "V1"){
-    Select-MgProfile -Name "v1.0"
-}else{
-    Select-MgProfile -Name "beta"
-}
+# if($Endpoint -eq "Beta"){
+    # Select-MgProfile -Name "beta"
+# }elseif($Endpoint -eq "V1"){
+    # Select-MgProfile -Name "v1.0"
+# }else{
+    # Select-MgProfile -Name "beta"
+# }
+
 try{Disconnect-MgGraph -ErrorAction SilentlyContinue}catch{}
 Connect-MgGraph -Scopes "Application.Read.All","Group.ReadWrite.All","Policy.Read.All","Policy.ReadWrite.ConditionalAccess" -ErrorAction Stop
 #endregion
