@@ -1,4 +1,7 @@
 .\Deploy-Policies.ps1 `
--Prefix "ZT" `
+-Prefix "CA" `
 -Ring "ALL" `
--PoliciesFolder "C:\AF\Repos\ConditionalAccess\PolicySets\Category structure for AADP1 and AADP2 mixture"
+-PoliciesFolder ".\aad_ca_templates\PolicySets\Category structure for AADP1"
+-ClientId $env:servicePrincipalId
+-ClientSecret $env:servicePrincipalKey
+-TenantId $env:tenantId

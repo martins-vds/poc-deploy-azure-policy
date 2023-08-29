@@ -13,5 +13,5 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'scriptPath'
     scriptPath: 'Deploy-Policies.ps1'
-    arguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1" -ClientId $env:servicePrincipalId -ClientSecret $env:servicePrincipalKey -TenantId $env:tenantId'
+    arguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)\aad_ca_templates\PolicySets\Category structure for AADP1" -ClientId "$env:servicePrincipalId" -ClientSecret "$env:servicePrincipalKey" -TenantId "$env:tenantId"'
     addSpnToEnvironment: true
