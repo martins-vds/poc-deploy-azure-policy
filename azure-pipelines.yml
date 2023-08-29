@@ -6,12 +6,24 @@
 pool:
   name: Default
 
+trigger: none
+
 steps:
 - task: AzureCLI@2
+  name: setSPVariables
+  displayName: Set Service Principle Credentials as Variables
   inputs:
     azureSubscription: 'PoC-Deploy-Azure-Policy'
     scriptType: 'pscore'
-    scriptLocation: 'scriptPath'
-    scriptPath: 'Deploy-Policies.ps1'
-    arguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)\aad_ca_templates\PolicySets\Category structure for AADP1" -ClientId "$env:servicePrincipalId" -ClientSecret "$env:servicePrincipalKey" -TenantId "$env:tenantId"'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      Write-Host "##vso[task.setvariable variable=AzureClientId;isOutput=true]$($env:servicePrincipalId)"
+      Write-Host "##vso[task.setvariable variable=AzureClientSecret;isOutput=true;issecret=true]$($env:servicePrincipalKey)"
+      Write-Host "##vso[task.setvariable variable=AzureTenantId;isOutput=true]$($env:tenantId)"
     addSpnToEnvironment: true
+- task: PowerShell@2
+  displayName: Deploy Policies
+  inputs:
+    filePath: 'Deploy-Policies.ps1'
+    arguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)\aad_ca_templates\PolicySets\Category structure for AADP1" -ClientId "$(setSPVariables.AzureClientId)" -ClientSecret "$(setSPVariables.AzureClientSecret)" -TenantId "$(setSPVariables.AzureTenantId)"'
+    pwsh: true
