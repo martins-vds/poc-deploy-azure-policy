@@ -12,13 +12,14 @@ steps:
     targetType: 'inline'
     script: |
       Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
-      Install-Module Microsoft.Graph -Force
+      Install-Module Microsoft.Graph -Force -Scope CurrentUser
     showWarnings: true
     pwsh: true
-- task: AzureCLI@2
+- task: AzurePowerShell@5
   inputs:
     azureSubscription: 'PoC-Deploy-Azure-Policy'
-    scriptType: 'pscore'
-    scriptLocation: 'scriptPath'
-    scriptPath: 'Deploy-Policies.ps1'
-    arguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1"'
+    ScriptType: 'FilePath'
+    ScriptPath: 'Deploy-Policies.ps1'
+    ScriptArguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1"'
+    azurePowerShellVersion: 'LatestVersion'
+    pwsh: true
