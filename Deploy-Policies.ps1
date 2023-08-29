@@ -95,6 +95,15 @@ Param(
     [Parameter(Mandatory=$True)]
     [System.String]$PoliciesFolder
     ,
+    [Parameter(Mandatory=$True)]
+    [System.String]$ClientId
+    ,
+    [Parameter(Mandatory=$True)]
+    [System.String]$ClientSecret
+    ,
+    [Parameter(Mandatory=$True)]
+    [System.String]$TenantId
+    ,
     [Parameter(Mandatory=$False)]
     [System.String]$ExclusionGroupsPrefix
     ,   
@@ -129,7 +138,11 @@ Import-Module -Name Microsoft.Graph.Identity.SignIns
 # }
 
 try{Disconnect-MgGraph -ErrorAction SilentlyContinue}catch{}
-Connect-MgGraph -Scopes "Application.Read.All","Group.ReadWrite.All","Policy.Read.All","Policy.ReadWrite.ConditionalAccess" -ErrorAction Stop
+
+$SecureClientSecret = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
+$ClientSecretCredential = New-Object System.Management.Automation.PSCredential ($ClientId, $SecureClientSecret)
+
+Connect-MgGraph -ClientSecretCredential $ClientSecretCredential -TenantId $TenantId -Scopes "Application.Read.All","Group.ReadWrite.All","Policy.Read.All","Policy.ReadWrite.ConditionalAccess" -ErrorAction Stop
 #endregion
 
 #region parameters

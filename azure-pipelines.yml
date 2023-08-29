@@ -7,11 +7,11 @@ pool:
   name: Default
 
 steps:
-- task: AzurePowerShell@5
+- task: AzureCLI@2
   inputs:
     azureSubscription: 'PoC-Deploy-Azure-Policy'
-    ScriptType: 'FilePath'
-    ScriptPath: 'Deploy-Policies.ps1'
-    ScriptArguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1"'
-    azurePowerShellVersion: 'LatestVersion'
-    pwsh: true
+    scriptType: 'pscore'
+    scriptLocation: 'scriptPath'
+    scriptPath: 'Deploy-Policies.ps1'
+    arguments: '-Prefix "CA" -Ring "ALL" -PoliciesFolder "$(System.DefaultWorkingDirectory)/aad_ca_templates/PolicySets/Category structure for AADP1" -ClientId $env:servicePrincipalId -ClientSecret $env:servicePrincipalKey -TenantId $env:tenantId'
+    addSpnToEnvironment: true
