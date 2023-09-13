@@ -6,13 +6,12 @@ on:
 jobs:
   deploy:
     runs-on: windows-latest
+    environment: non-prod-all
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      - name: Run a multi-line script
+      - name: Deploy
+        shell: pwsh
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          $azureCredentials = ConvertFrom-Json -InputObject '${{ secrets.AZURE_CREDENTIALS }}' -Depth 2
+          .\Deploy-Policies.ps1 -Prefix '${{ vars.PREFIX }}' -Ring '${{ vars.RING }}' -PoliciesFolder '${{ github.workspace }}\aad_ca_templates\PolicySets\Category structure for AADP1' -ClientId "$($azureCredentials.clientId)" -ClientSecret "$($azureCredentials.clientSecret)" -TenantId "$($azureCredentials.tenantId)"
